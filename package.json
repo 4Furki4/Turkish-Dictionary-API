@@ -1,12 +1,14 @@
 {
   "name": "Turkish Dictionary API",
+  "description": "an API sends Turkish words and their meanings",
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "elysia": "latest",
+    "prisma": "^5.2.0"
   },
   "devDependencies": {
     "bun-types": "latest"
