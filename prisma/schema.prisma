@@ -29,8 +29,8 @@ model Meaning {
   partOfSpeech PartOfSpeech?
   definition   Definition
   attributes   Attribute[]   @default([])
-  Word         Word          @relation(fields: [wordId], references: [id])
-  wordId       String        @db.ObjectId
+  Word         Word?         @relation(fields: [wordId], references: [id])
+  wordId       String?       @db.ObjectId
 }
 
 type Definition {
