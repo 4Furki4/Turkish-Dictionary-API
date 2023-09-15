@@ -7,14 +7,13 @@ export const wordSchema = z.object({
   }),
   meanings: z.array(
     z.object({
-      attributes: z.array(
-        z
-          .enum(["plural", "properNoun", "trope", "slang", "archaic"], {
-            invalid_type_error:
-              "Attributes must be plural, properNoun, trope, slang, or archaic",
+      attributes: z
+        .array(
+          z.string({
+            invalid_type_error: "Attributes must be an array of strings",
           })
-          .optional()
-      ),
+        )
+        .optional(),
       partOfSpeech: z.enum(
         [
           "noun",
@@ -51,9 +50,13 @@ export const wordSchema = z.object({
       }),
     })
   ),
-  attributes: z.array(
-    z.enum(["plural", "properNoun", "trope", "slang", "archaic"])
-  ),
+  attributes: z
+    .array(
+      z.string({
+        invalid_type_error: "Attributes must be an array of strings",
+      })
+    )
+    .optional(),
   relatedWords: z
     .array(
       z.string({

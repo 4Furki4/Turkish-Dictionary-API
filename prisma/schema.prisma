@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Word {
-  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
   name           String
   meanings       Meaning[]
   root           String?
@@ -19,18 +19,18 @@ model Word {
   audio          String?
   prefix         String?
   suffix         String?
-  attributes     Attribute[] @default([])
+  attributes     String[]
   relatedWords   String[]
   relatedPhrases String[]
 }
 
 model Meaning {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  partOfSpeech PartOfSpeech?
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  partOfSpeech PartOfSpeech
   definition   Definition
-  attributes   Attribute[]   @default([])
-  Word         Word?         @relation(fields: [wordId], references: [id])
-  wordId       String?       @db.ObjectId
+  attributes   String[]     @default([])
+  Word         Word         @relation(fields: [wordId], references: [id])
+  wordId       String       @db.ObjectId
 }
 
 type Definition {
@@ -51,12 +51,4 @@ enum PartOfSpeech {
   preposition
   conjunction
   interjection
-}
-
-enum Attribute {
-  plural
-  properNoun
-  trope
-  slang
-  archaic
 }

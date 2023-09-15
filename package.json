@@ -1,5 +1,5 @@
 {
-  "name": "Turkish Dictionary API",
+  "name": "elysia-api",
   "description": "an API sends Turkish words and their meanings",
   "version": "1.0.50",
   "scripts": {

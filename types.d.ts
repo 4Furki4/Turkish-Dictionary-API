@@ -27,7 +27,7 @@ type Word = {
 
 type Meaning = {
   id: string;
-  partOfSpeech?: PartOfSpeech;
+  partOfSpeech: PartOfSpeech;
   definition: Definition;
   attributes?: Attribute[];
   Word: Word?;
@@ -45,21 +45,13 @@ type Example = {
 };
 
 enum PartOfSpeech {
-  noun,
-  verb,
-  adjective,
-  adverb,
-  preposition,
-  conjunction,
-  interjection,
-}
-
-enum Attribute {
-  plural,
-  properNoun,
-  trope,
-  slang,
-  archaic,
+  noun = "noun",
+  verb = "verb",
+  adjective = "adjective",
+  adverb = "adverb",
+  preposition = "preposition",
+  conjunction = "conjunction",
+  interjection = "interjection",
 }
 type MeaningInput = Omit<Meaning, "id" | "Word" | "wordId">;
 
