@@ -1,17 +1,43 @@
 import { WordInput, handlerContext } from "../../types";
 import { wordSchema } from "../validations/words";
 import prisma from "../db";
-export function getWords(context: handlerContext) {}
+
+type QueryStrings = "take" | "skip";
+
+export async function getWords(context: handlerContext) {
+  const { take, skip } = context.query as Record<
+    QueryStrings,
+    string | undefined
+  >;
+  const parsedTake = parseInt(take ?? "5");
+  const parsedSkip = parseInt(skip ?? "0");
+  await prisma.$connect();
+  try {
+    const words = await prisma.word.findMany({
+      include: {
+        meanings: true,
+      },
+      skip: isNaN(parsedSkip) ? 0 : parsedSkip,
+      take: isNaN(parsedTake) ? 5 : parsedTake,
+    });
+    context.set.status = 200;
+    return { data: words };
+  } catch (err) {
+    console.log(err);
+    context.set.status = 500;
+    return { error: err };
+  }
+}
 
 export async function getWord(context: handlerContext) {
-  let { name } = context.params as { name: string };
+  const { name } = context.params as { name: string };
   // make url parameter has utf-8 encoding
-  name = decodeURI(name);
+  const parsedName = decodeURI(name);
   try {
     await prisma.$connect();
     const word = await prisma.word.findMany({
       where: {
-        name,
+        name: parsedName,
       },
       include: {
         meanings: true,
