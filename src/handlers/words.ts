@@ -2,16 +2,14 @@ import { WordInput, handlerContext } from "../../types";
 import { wordSchema } from "../validations/words";
 import prisma from "../db";
 
-type QueryStrings = "take" | "skip";
-
 export async function getWords(context: handlerContext) {
+  type QueryStrings = "take" | "skip";
   const { take, skip } = context.query as Record<
     QueryStrings,
     string | undefined
   >;
   const parsedTake = parseInt(take ?? "5");
   const parsedSkip = parseInt(skip ?? "0");
-  await prisma.$connect();
   try {
     const words = await prisma.word.findMany({
       include: {
@@ -34,7 +32,6 @@ export async function getWord(context: handlerContext) {
   // make url parameter has utf-8 encoding
   const parsedName = decodeURI(name);
   try {
-    await prisma.$connect();
     const word = await prisma.word.findMany({
       where: {
         name: parsedName,
@@ -52,8 +49,6 @@ export async function getWord(context: handlerContext) {
   } catch (err) {
     context.set.status = 500;
     return { error: err };
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
