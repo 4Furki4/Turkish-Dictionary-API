@@ -69,6 +69,9 @@ export async function addWord(context: handlerContext) {
           },
         },
       },
+      include: {
+        meanings: true,
+      },
     });
     context.set.status = 201;
     return { data: createdWord };
