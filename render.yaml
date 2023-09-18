@@ -1,0 +1,6 @@
+services: -type:web
+  name:bun
+  env:docker
+  repo:https://github.com/4Furki4/Turkish-Dictionary-API
+  plan:free
+  autodeploy:false
