@@ -1,4 +1,4 @@
-import { WordInput, handlerContext } from "../../types";
+import { MeaningInput, WordInput, handlerContext } from "../../types";
 import { wordSchema } from "../validations/words";
 import prisma from "../db";
 
@@ -19,7 +19,7 @@ export async function getWords(context: handlerContext) {
       take: isNaN(parsedTake) ? 5 : parsedTake,
     });
     context.set.status = 200;
-    return { data: words };
+    return words;
   } catch (err) {
     console.log(err);
     context.set.status = 500;
@@ -29,7 +29,6 @@ export async function getWords(context: handlerContext) {
 
 export async function getWord(context: handlerContext) {
   const { name } = context.params as { name: string };
-  // make url parameter has utf-8 encoding
   const parsedName = decodeURI(name);
   try {
     const word = await prisma.word.findMany({
@@ -42,7 +41,7 @@ export async function getWord(context: handlerContext) {
     });
     if (word.length === 0) {
       context.set.status = 404;
-      return { error: "Word not found" };
+      return { message: "Word not found" };
     }
     context.set.status = 200;
     return { data: word };
@@ -80,6 +79,52 @@ export async function addWord(context: handlerContext) {
   }
 }
 
-export function updateWord(context: handlerContext) {}
+export async function updateWord(context: handlerContext) {
+  const { id } = context.params as { id: string };
+  const wordData: WordInput = await context.request.json();
+  try {
+    await wordSchema.parse(wordData);
+  } catch (err) {
+    context.set.status = 400;
+    return { error: err };
+  }
+  try {
+    const word = await prisma.word.update({
+      where: {
+        id,
+      },
+      data: {
+        ...wordData,
+        meanings: {
+          createMany: {
+            data: wordData.meanings,
+          },
+        },
+      },
+      include: {
+        meanings: true,
+      },
+    });
+    context.set.status = 200;
+    return { data: word };
+  } catch (err) {
+    context.set.status = 500;
+    return { error: err };
+  }
+}
 
-export function deleteWord(context: handlerContext) {}
+export async function deleteWord(context: handlerContext) {
+  const { id } = context.params as { id: string };
+  try {
+    await prisma.word.delete({
+      where: {
+        id,
+      },
+    });
+    context.set.status = 200;
+    return;
+  } catch (err) {
+    context.set.status = 500;
+    return { error: err };
+  }
+}

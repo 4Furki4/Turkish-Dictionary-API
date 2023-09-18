@@ -11,7 +11,7 @@ const words = new Elysia({ prefix: "words" })
   .get("/", getWords)
   .get("/:name", getWord)
   .post("/", addWord)
-  .put("/:name", updateWord)
-  .delete("/:name", deleteWord);
+  .put("/:id", updateWord)
+  .delete("/:id", deleteWord);
 
 export default words;

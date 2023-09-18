@@ -1,5 +1,6 @@
 import { Elysia } from "elysia";
 import words from "./routes/words";
+import meanings from "./routes/meanings";
 
 const app = new Elysia();
 
@@ -8,7 +9,7 @@ app.get("/", (context) => {
     message: "Hello World!",
   };
 });
-app.group("/api", (app) => app.use(words));
+app.group("/api", (app) => app.use(words).use(meanings));
 
 app.listen(3000);
 

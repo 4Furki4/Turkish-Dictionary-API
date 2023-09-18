@@ -29,7 +29,7 @@ model Meaning {
   partOfSpeech PartOfSpeech
   definition   Definition
   attributes   String[]     @default([])
-  Word         Word         @relation(fields: [wordId], references: [id])
+  Word         Word         @relation(fields: [wordId], references: [id], onDelete: Cascade)
   wordId       String       @db.ObjectId
 }
 
