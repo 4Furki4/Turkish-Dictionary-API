@@ -46,3 +46,45 @@ export async function updateMeaning(context: handlerContext) {
     return { error: err };
   }
 }
+
+export async function deleteMeaning(context: handlerContext) {
+  const { id } = context.params as { id: string };
+  try {
+    const response = await prisma.meaning.delete({
+      where: {
+        id,
+      },
+    });
+    context.set.status = 200;
+    return response;
+  } catch (err: any) {
+    if (err.code === "P2025") {
+      context.set.status = 404;
+      return { error: "Meaning not found" };
+    }
+    context.set.status = 500;
+    return { error: err };
+  }
+}
+
+export async function deleteMeanings(context: handlerContext) {
+  const ids: string[] = await context.request.json();
+  try {
+    const deletedMeaningCount = await prisma.meaning.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+    if (deletedMeaningCount.count === 0) {
+      context.set.status = 404;
+      return { message: "Nothing to delete" };
+    }
+    context.set.status = 200;
+    return deletedMeaningCount;
+  } catch (err) {
+    context.set.status = 500;
+    return { error: err };
+  }
+}
