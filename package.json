@@ -1,5 +1,5 @@
 {
-  "name": "Turkish Dictionary API",
+  "name": "elysia-api",
   "description": "an API sends Turkish words and their meanings",
   "version": "1.0.50",
   "scripts": {
@@ -7,8 +7,10 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@prisma/client": "^5.3.0",
     "elysia": "latest",
-    "prisma": "^5.2.0"
+    "prisma": "^5.2.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "bun-types": "latest"

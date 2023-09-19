@@ -1,0 +1,9 @@
+#Comment: This is a config file for render.com deployment
+---
+services:
+  - type: web
+    name: bun
+    env: docker
+    repo: https://github.com/4Furki4/Turkish-Dictionary-API
+    plan: free
+    autoDeploy: false
