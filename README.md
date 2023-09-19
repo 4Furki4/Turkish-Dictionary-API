@@ -1,3 +1,8 @@
+# Turkish Dictionary API
+
+- It's my very first API application built by Elysia powered by Bun to experience Bun for the first time!
+- Since Bun applications are not ready to deploy, I cannot deploy my Turkish Dictionary API easily.
+
 # Elysia with Bun runtime
 
 ## Getting Started
